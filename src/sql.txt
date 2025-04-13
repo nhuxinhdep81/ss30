@@ -1,0 +1,307 @@
+create database ManagementEmployees;
+use ManagementEmployees;
+
+create table Department(
+    dept_id int primary key auto_increment,
+    dept_name varchar(100) unique not null ,
+    description varchar(255),
+    status enum('ACTIVE', 'INACTIVE')
+);
+
+INSERT INTO Department (dept_name, description, status) VALUES
+                                                            ('Human Resources', 'Quản lý nhân sự và tuyển dụng', 'ACTIVE'),
+                                                            ('Finance', 'Xử lý tài chính và ngân sách', 'ACTIVE'),
+                                                            ('Marketing', 'Chiến lược quảng bá và truyền thông', 'ACTIVE'),
+                                                            ('Sales', 'Phòng kinh doanh và bán hàng', 'ACTIVE'),
+                                                            ('IT Support', 'Hỗ trợ kỹ thuật và hệ thống', 'ACTIVE'),
+                                                            ('Research', 'Nghiên cứu và phát triển sản phẩm', 'ACTIVE'),
+                                                            ('Customer Service', 'Chăm sóc khách hàng', 'ACTIVE'),
+                                                            ('Legal', 'Pháp chế và hợp đồng', 'INACTIVE'),
+                                                            ('Procurement', 'Mua sắm và nhà cung cấp', 'ACTIVE'),
+                                                            ('Logistics', 'Quản lý kho và vận chuyển', 'ACTIVE'),
+                                                            ('Admin', 'Hành chính - văn phòng', 'ACTIVE'),
+                                                            ('QA', 'Đảm bảo chất lượng sản phẩm', 'ACTIVE'),
+                                                            ('Training', 'Đào tạo và phát triển nhân viên', 'INACTIVE'),
+                                                            ('Security', 'An ninh và bảo vệ', 'ACTIVE'),
+                                                            ('Innovation', 'Đổi mới sáng tạo', 'ACTIVE');
+
+
+create table Employees(
+    emp_id varchar(5) primary key,
+    emp_name varchar(150) not null ,
+    emp_email varchar(50) not null unique ,
+    emp_phone varchar(10) not null unique ,
+    emp_gender enum('MALE', 'FEMALE', 'OTHER'),
+    emp_grade int not null check ( emp_grade > 0 ),
+    emp_salary decimal(15,2) check ( emp_salary > 0 ),
+    emp_birth date,
+    emp_address varchar(255) not null ,
+    emp_status enum('ACTIVE', 'INACTIVE', 'ONLEAVE', 'POLICYLEAVE'),
+    dept_id int,
+    foreign key (dept_id) references Department(dept_id)
+);
+
+INSERT INTO Employees (emp_id, emp_name, emp_email, emp_phone, emp_gender, emp_grade, emp_salary, emp_birth, emp_address, emp_status, dept_id) VALUES
+                                                                                                                                                   ('E001', 'Nguyen Van A', 'a.nguyen@example.com', '0912345678', 'MALE', 3, 10000000.00, '1990-05-01', '123 Le Loi, TP.HCM', 'ACTIVE', 1),
+                                                                                                                                                   ('E002', 'Tran Thi B', 'b.tran@example.com', '0987654321', 'FEMALE', 2, 8500000.00, '1992-08-15', '456 Hai Ba Trung, Da Nang', 'ACTIVE', 2),
+                                                                                                                                                   ('E003', 'Le Van C', 'c.le@example.com', '0901234567', 'MALE', 1, 7000000.00, '1995-03-10', '789 Nguyen Trai, Ha Noi', 'ONLEAVE', 3),
+                                                                                                                                                   ('E004', 'Pham Thi D', 'd.pham@example.com', '0934567890', 'FEMALE', 2, 9200000.00, '1989-12-22', '321 Tran Hung Dao, Can Tho', 'ACTIVE', 4),
+                                                                                                                                                   ('E005', 'Hoang Van E', 'e.hoang@example.com', '0971122334', 'MALE', 4, 12000000.00, '1991-07-18', '12 Bach Dang, Hue', 'INACTIVE', 5),
+                                                                                                                                                   ('E006', 'Vo Thi F', 'f.vo@example.com', '0965123789', 'FEMALE', 2, 9100000.00, '1996-04-22', '101 Tran Hung Dao, TP.HCM', 'ONLEAVE', 6),
+                                                                                                                                                   ('E007', 'Dang Van G', 'g.dang@example.com', '0911987654', 'MALE', 3, 11200000.00, '1991-12-01', '56 Phan Dinh Phung, Da Nang', 'ACTIVE', 7),
+                                                                                                                                                   ('E008', 'Nguyen Thi H', 'h.nguyen@example.com', '0933123456', 'FEMALE', 1, 7500000.00, '1998-06-30', '33 Nguyen Van Linh, Hue', 'INACTIVE', 8),
+                                                                                                                                                   ('E009', 'Le Hoang I', 'i.le@example.com', '0987456123', 'OTHER', 2, 8900000.00, '1993-08-14', '78 Bach Dang, Ha Noi', 'ACTIVE', 9),
+                                                                                                                                                   ('E010', 'Tran Minh J', 'j.tran@example.com', '0979111222', 'MALE', 4, 13450000.00, '1990-11-19', '99 Vo Thi Sau, Can Tho', 'POLICYLEAVE', 10),
+                                                                                                                                                   ('E011', 'Bui Thi K', 'k.bui@example.com', '0944223344', 'FEMALE', 2, 8800000.00, '1994-02-25', '22 Ton Duc Thang, Vinh', 'ACTIVE', 11),
+                                                                                                                                                   ('E012', 'Do Van L', 'l.do@example.com', '0909888777', 'MALE', 3, 10800000.00, '1992-09-10', '10 Ly Thuong Kiet, TP.HCM', 'ONLEAVE', 12),
+                                                                                                                                                   ('E013', 'Ho Thi M', 'm.ho@example.com', '0934555666', 'FEMALE', 1, 7000000.00, '1999-03-05', '41 Tran Quang Dieu, Da Lat', 'ACTIVE', 13),
+                                                                                                                                                   ('E014', 'Phan Van N', 'n.phan@example.com', '0988333444', 'MALE', 2, 9200000.00, '1995-10-16', '35 Le Thanh Ton, Nha Trang', 'INACTIVE', 14),
+                                                                                                                                                   ('E015', 'Truong Thi O', 'o.truong@example.com', '0966778899', 'FEMALE', 2, 8700000.00, '1997-07-28', '18 Cach Mang, Binh Duong', 'ACTIVE', 15);
+INSERT INTO Employees (emp_id, emp_name, emp_email, emp_phone, emp_gender, emp_grade, emp_salary, emp_birth, emp_address, emp_status, dept_id) VALUES
+
+                                                                                                                                                   ('E016', 'Le DIen Tien', 'letien@example.com', '0912664172', 'MALe', 2, 10000000.00, '2005-07-28', '18 Cach Mang, Binh Duong', 'ACTIVE', 11);
+
+
+create table Login (
+    username varchar(50) primary key,
+    password varchar(100) not null,
+    status enum('ACTIVE', 'INACTIVE') not null default 'ACTIVE',
+    role enum('ADMIN', 'HR') not null
+);
+
+insert into Login (username, password, status, role) values
+        ('admin1', 'admin123', 'ACTIVE', 'ADMIN'),
+        ('hr1', 'hr123', 'ACTIVE', 'HR');
+
+
+delimiter //
+create procedure get_departments_by_page(
+    in page_number int
+)
+begin
+    declare offset_value int;
+
+    set offset_value = (page_number - 1) * 5;
+
+    select * from Department
+    order by dept_id
+    limit 5 offset offset_value;
+end //
+
+
+create procedure add_department(
+    dept_name_in varchar(255),
+    dept_description_in varchar(255),
+    dept_status_in enum('ACTIVE', 'INACTIVE')
+)
+begin
+    insert into Department(dept_name, description, status)
+        values (dept_name_in,dept_description_in,dept_status_in);
+end //
+
+
+create procedure update_department(
+    dept_id_in int,
+    dept_status_in enum('ACTIVE', 'INACTIVE')
+)
+begin
+    update Department
+        set status = dept_status_in
+    where dept_id = dept_id_in;
+end //
+
+
+create procedure delete_department(
+    in dept_id_in int,
+    out result int
+)
+begin
+    declare num_of_emp_in_department int;
+    select count(e.emp_id) into num_of_emp_in_department
+    from employees e
+    where dept_id = dept_id_in;
+
+    if num_of_emp_in_department = 0 then
+        delete from department
+        where dept_id = dept_id_in;
+        set result = row_count();
+    else
+        set result = -1;
+    end if;
+end //
+
+
+
+create procedure search_department_by_name(
+    dept_name_in varchar(100)
+)
+begin
+    select * from Department
+        where dept_name like concat('%', dept_name_in, '%');
+end //
+
+create procedure get_employees_by_page(
+    in page_number int
+)
+begin
+    declare offset_value int;
+
+    set offset_value = (page_number - 1) * 10;
+
+    select * from Employees
+    order by emp_id
+    limit 10 offset offset_value;
+end //
+
+create procedure add_employee(
+    emp_id_in varchar(5),
+    emp_name_in varchar(150),
+    emp_email_in varchar(50),
+    emp_phone_in varchar(10),
+    emp_gender_in enum('MALE', 'FEMALE', 'OTHER'),
+    emp_grade_in int,
+    emp_salary_in decimal(15,2),
+    emp_birth_in date,
+    emp_address_in varchar(255),
+    emp_status_in enum('ACTIVE', 'INACTIVE', 'ONLEAVE', 'POLICYLEAVE'),
+    dept_id_in int
+)
+begin
+    declare dept_status_check enum('ACTIVE', 'INACTIVE');
+
+    select status into dept_status_check
+    from Department
+    where dept_id = dept_id_in;
+
+    if dept_status_check = 'ACTIVE' then
+        insert into Employees(
+            emp_id, emp_name, emp_email, emp_phone, emp_gender,
+            emp_grade, emp_salary, emp_birth, emp_address,
+            emp_status, dept_id
+        )
+        values (
+                   emp_id_in, emp_name_in, emp_email_in, emp_phone_in, emp_gender_in,
+                   emp_grade_in, emp_salary_in, emp_birth_in, emp_address_in,
+                   emp_status_in, dept_id_in
+               );
+    end if;
+end //
+
+create procedure update_employee(
+    emp_id_in varchar(5),
+    emp_name_in varchar(150),
+    emp_email_in varchar(50),
+    emp_phone_in varchar(10),
+    emp_gender_in enum('MALE', 'FEMALE', 'OTHER'),
+    emp_grade_in int,
+    emp_salary_in decimal(15,2),
+    emp_birth_in date,
+    emp_address_in varchar(255),
+    emp_status_in enum('ACTIVE', 'INACTIVE', 'ONLEAVE', 'POLICYLEAVE'),
+    dept_id_in int
+)
+begin
+    update Employees
+    set
+        emp_name = emp_name_in,
+        emp_email = emp_email_in,
+        emp_phone = emp_phone_in,
+        emp_gender = emp_gender_in,
+        emp_grade = emp_grade_in,
+        emp_salary = emp_salary_in,
+        emp_birth = emp_birth_in,
+        emp_address = emp_address_in,
+        emp_status = emp_status_in,
+        dept_id = dept_id_in
+    where emp_id = emp_id_in;
+end //
+
+create procedure delete_employee(
+    emp_id_in varchar(5)
+)
+begin
+    update Employees
+    set emp_status = 'INACTIVE'
+    where emp_id = emp_id_in;
+end //
+
+create procedure search_employee_by_name(
+    emp_name_in varchar(150)
+)
+begin
+    select * from Employees
+    where emp_name like concat('%', emp_name_in, '%');
+end //
+
+create procedure search_employee_by_age_range(
+    min_age int,
+    max_age int
+)
+begin
+    select * from Employees
+    where timestampdiff(year, emp_birth, curdate()) between min_age and max_age;
+end //
+
+
+create procedure sort_employees_by_salary_desc()
+begin
+    select * from Employees
+    order by emp_salary desc;
+end //
+
+create procedure sort_employees_by_name_asc()
+begin
+    select * from Employees
+    order by emp_name asc;
+end //
+
+
+create procedure statistic_employee_count_by_department()
+begin
+    select d.dept_id, d.dept_name, count(e.emp_id) as total_employees
+    from Department d
+             left join Employees e on d.dept_id = e.dept_id
+    group by d.dept_id, d.dept_name;
+end //
+
+
+create procedure statistic_total_employees()
+begin
+    select count(*) as total_employees from Employees;
+end //
+
+
+create procedure statistic_department_most_employees()
+begin
+    select d.dept_id, d.dept_name, count(e.emp_id) as total_employees
+    from Department d
+             join Employees e on d.dept_id = e.dept_id
+    group by d.dept_id, d.dept_name
+    order by total_employees desc
+    limit 1;
+end //
+
+create procedure statistic_department_highest_salary()
+begin
+    select d.dept_id, d.dept_name, sum(e.emp_salary) as total_salary
+    from Department d
+             join Employees e on d.dept_id = e.dept_id
+    group by d.dept_id, d.dept_name
+    order by total_salary desc
+    limit 1;
+end //
+
+create procedure check_login(
+     username_in varchar(50),
+     password_in varchar(100)
+)
+begin
+    select * from Login
+    where username = username_in
+      and password = password_in
+      and status = 'ACTIVE';
+end//
+
+
+
+delimiter //
